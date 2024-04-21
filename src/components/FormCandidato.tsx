@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Grid, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Button, TextField, Grid, Typography, Select, MenuItem, SelectChangeEvent, Alert  } from '@mui/material';
 import axios from 'axios';
 
 interface FormValues {
@@ -25,6 +25,7 @@ const FormCandidato: React.FC<FormProps> = ({ fetchCandidatos }) => {
     nDoc: 0,
     tipoDoc: ''
   });
+  const [error, setError] = useState<string>(''); 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -56,8 +57,13 @@ const FormCandidato: React.FC<FormProps> = ({ fetchCandidatos }) => {
       });
       
       fetchCandidatos();
-    } catch (error) {
-      console.error('Error al enviar el candidato:', error);
+      setError('');
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        setError('El usuario ya existe');
+      } else {
+        console.error('Error al guardar el candidato:', error);
+      }
     }
   };
 
@@ -146,6 +152,9 @@ const FormCandidato: React.FC<FormProps> = ({ fetchCandidatos }) => {
               </MenuItem>
             ))}
           </Select>
+        </Grid>
+        <Grid item xs={12}>
+          {error && <Alert severity="error">{error}</Alert>}
         </Grid>
         <Grid item xs={12}>
           <Button type="submit" variant="contained" color="primary">
