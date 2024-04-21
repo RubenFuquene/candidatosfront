@@ -10,7 +10,7 @@ function App() {
 
   const fetchCandidatos = async () => {
     try {
-      const response = await axios.get<Candidato[]>('http://localhost:8080/candidatos');
+      const response = await axios.get<Candidato[]>('http://localhost:8090/candidatos');
       setCandidatos(response.data);
     } catch (error) {
       console.error('Error fetching candidatos:', error);

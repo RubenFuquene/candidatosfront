@@ -44,7 +44,7 @@ const FormCandidato: React.FC<FormProps> = ({ fetchCandidatos }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/candidatos', formValues);
+      await axios.post('http://localhost:8090/candidatos', formValues);
       
       setFormValues({
         usuario: '',
@@ -64,7 +64,7 @@ const FormCandidato: React.FC<FormProps> = ({ fetchCandidatos }) => {
   useEffect(() => {
     const fetchTiposDocumento = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/tipos-documento');
+        const response = await axios.get('http://localhost:8090/tipos-documento');
         setTiposDocumento(response.data);
         console.log(response.data)
       } catch (error) {
